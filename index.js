@@ -10,7 +10,6 @@ app.use("/api", router);
 const { sequelize } = require("./models");
 
 const passport = require("passport");
-const passportConfig = require("./config/passport");
 
 app.listen(port, function () {
   console.log("server on " + port);
