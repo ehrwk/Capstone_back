@@ -2,12 +2,10 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 
-const email = require("./email");
 const user = require("./user");
 const auth = require("./auth");
 const follow = require("./follow");
 
-router.use("/email", email);
 router.use("/user", user);
 router.use("/auth", auth);
 router.use("/follow", follow);
