@@ -11,7 +11,6 @@ module.exports = {
   sign: async (info) => {
     let payload = {
       id: info.id,
-      email: info.email,
     };
 
     const result = {

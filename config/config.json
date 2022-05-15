@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "unix21002",
+    "database": "capstone",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

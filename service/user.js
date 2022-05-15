@@ -4,18 +4,9 @@ const { User } = require("../models/index");
 
 exports.getUserId = async (user_id) => {
   return await User.findOne({
-    attributes: ["id", "user_id", "email", "nickname"],
+    attributes: ["id", "user_id", "nickname"],
     where: {
       user_id: user_id,
-    },
-  });
-};
-
-exports.getUserEmail = async (email) => {
-  return await User.findOne({
-    attributes: ["email"],
-    where: {
-      email: email,
     },
   });
 };
@@ -40,17 +31,16 @@ exports.getNickname = async (id) => {
 
 exports.getUser = async (id) => {
   return await User.findOne({
-    attributes: ["id", "user_id", "email", "nickname"],
+    attributes: ["id", "user_id", "nickname"],
     where: {
       id: id,
     },
   });
 };
 
-exports.createUser = async (user_id, email, password, nickname) => {
+exports.createUser = async (user_id, password, nickname) => {
   return await User.create({
     user_id: user_id,
-    email: email,
     password: password,
     nickname: nickname,
   });

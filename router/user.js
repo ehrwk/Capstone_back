@@ -33,37 +33,27 @@ router.post(
   "/",
   [
     body("user_id").trim().notEmpty().withMessage("id 확인"),
-    body("email").trim().isEmail().withMessage("이메일 확인"),
     body("password").trim().isLength({ min: 6 }).withMessage("pw는 6글자 이상"),
     body("nickname").trim().notEmpty().withMessage("닉네임 확인"),
     validateUser,
   ],
   async (req, res) => {
     const user = req.body;
-    const result1 = await userService.getUserId(req.body.user_id);
-    const result2 = await userService.getUserEmail(req.body.email);
+    const { user_id, password, nickname } = user;
 
-    if (result1 || result2) {
-      if (result1) {
-        return res.status(201).send({
-          success: false,
-          message: "이미 존재하는 아이디입니다.",
-        });
-      }
+    const result = await userService.getUserId(req.body.user_id);
 
-      if (result2) {
-        return res.status(201).send({
-          success: false,
-          message: "이미 존재하는 이메일입니다.",
-        });
-      }
+    console.log(result);
+
+    if (result) {
+      return res.status(404).send({
+        success: false,
+        message: "이미 존재하는 계정입니다.",
+      });
     } else {
-      const { user_id, email, password, nickname } = user;
-
       const hashPassword = await bcypt.hash(password, 10);
       const createUser = await userService.createUser(
         user_id,
-        email,
         hashPassword,
         nickname
       );
@@ -72,6 +62,32 @@ router.post(
         success: true,
         data: createUser,
         message: "user create",
+      });
+    }
+  }
+);
+
+router.get(
+  "/idcheck",
+  [
+    body("user_id")
+      .trim()
+      .notEmpty()
+      .withMessage("id값을 입력하지 않았습니다."),
+  ],
+  validateUser,
+  async (req, res) => {
+    const result = await userService.getUserId(req.body.user_id);
+
+    if (result) {
+      return res.status(201).send({
+        success: false,
+        message: "이미 존재하는 아이디입니다.",
+      });
+    } else {
+      return res.status(200).send({
+        success: true,
+        message: "사용가능한 아이디입니다.",
       });
     }
   }
