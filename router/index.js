@@ -5,10 +5,12 @@ const router = express.Router();
 const user = require("./user");
 const auth = require("./auth");
 const follow = require("./follow");
+const goal = require("./goal");
 
 router.use("/user", user);
 router.use("/auth", auth);
 router.use("/follow", follow);
+router.use("/goal", goal);
 
 module.exports = router;
 

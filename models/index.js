@@ -24,6 +24,6 @@ db.Follow = require("./Follow")(sequelize, Sequelize);
 db.Goal = require("./Goal")(sequelize, Sequelize);
 
 db.Follow.belongsTo(db.User, { foreignKey: "follower", targetKey: "id" }); //User 1 : N Follow
-db.Goal.belongsTo(db.Board, { foreignKey: "user_id" });
+db.Goal.belongsTo(db.User, { foreignKey: "user_id" });
 
 module.exports = db;
