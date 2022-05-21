@@ -80,4 +80,54 @@ router.delete("/:id", isLogin, async (req, res) => {
   });
 });
 
+//팔로워 목록
+//팔로워 팔로잉 햇갈려서 안에 변수가 이모양임
+router.get("/follower/:id", isLogin, async (req, res) => {
+  const id = req.params.id;
+  const getUser = await userService.getUser(id);
+
+  if (getUser == null) {
+    return res.status(201).send({
+      success: false,
+      message: "없는 유저정보입니다.",
+    });
+  }
+
+  const token = req.get("Authorization");
+  const result = await jwt.decode(token);
+
+  const getFollowing = await followService.getFollowing(id);
+
+  return res.status(200).send({
+    success: true,
+    data: getFollowing,
+    message: "팔로워 목록",
+  });
+});
+
+//팔로잉 목록
+//내부 팔로잉 팔로워명 수정필요
+router.get("/following/:id", isLogin, async (req, res) => {
+  const id = req.params.id;
+  const getUser = await userService.getUser(id);
+
+  if (getUser == null) {
+    return res.status(201).send({
+      success: false,
+      message: "없는 유저정보입니다.",
+    });
+  }
+
+  const token = req.get("Authorization");
+  const result = await jwt.decode(token);
+
+  const getFollower = await followService.getFollower(id);
+
+  return res.status(200).send({
+    success: true,
+    data: getFollower,
+    message: "팔로잉 목록",
+  });
+});
+
 module.exports = router;

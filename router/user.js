@@ -93,7 +93,7 @@ router.get(
   }
 );
 
-//유저정보조회
+//유저정보 조회
 router.get("/", isLogin, async (req, res) => {
   const token = req.get("Authorization");
 
@@ -101,9 +101,11 @@ router.get("/", isLogin, async (req, res) => {
   let userInfo = JSON.stringify(result.id);
   userInfo = userInfo.replace(/\"/gi, "");
 
+  const getUser = await userService.getUser(userInfo);
+
   return res.status(200).send({
     success: true,
-    data: userInfo,
+    data: getUser,
     message: "유저정보조회",
   });
 });
@@ -138,6 +140,21 @@ router.get("/profile", isLogin, async (req, res) => {
   let userInfo = JSON.stringify(result.id);
   userInfo = userInfo.replace(/\"/gi, "");
 });
+
+//유저정보조회 확인용
+// router.get("/", isLogin, async (req, res) => {
+//   const token = req.get("Authorization");
+
+//   const result = await jwt.decode(token);
+//   let userInfo = JSON.stringify(result.id);
+//   userInfo = userInfo.replace(/\"/gi, "");
+
+//   return res.status(200).send({
+//     success: true,
+//     data: userInfo,
+//     message: "유저정보조회",
+//   });
+// });
 
 //isLogin 확인용
 // router.post("/login", isLogin, async (req, res) => {

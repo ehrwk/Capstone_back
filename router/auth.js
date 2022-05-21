@@ -59,7 +59,7 @@ router.post(
         //발급된 시간이 decode되어 return
         res.status(200).send({
           success: true,
-          data: jwtToken.token,
+          token: jwtToken.token,
           message: "로그인 성공",
         });
       }

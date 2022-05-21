@@ -1,10 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Board", {
+  return sequelize.define("Goal", {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     goal_title: {
       type: DataTypes.STRING,
@@ -16,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     copied_from: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      default: -1,
     },
   });
 };

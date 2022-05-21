@@ -20,11 +20,10 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = require("./User")(sequelize, Sequelize);
-db.Board = require("./Board")(sequelize, Sequelize);
 db.Follow = require("./Follow")(sequelize, Sequelize);
-
-db.Board.belongsTo(db.User, { foreignKey: "user_id" }); //User 1 : N Board
+db.Goal = require("./Goal")(sequelize, Sequelize);
 
 db.Follow.belongsTo(db.User, { foreignKey: "follower", targetKey: "id" }); //User 1 : N Follow
+db.Goal.belongsTo(db.Board, { foreignKey: "user_id" });
 
 module.exports = db;

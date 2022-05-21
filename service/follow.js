@@ -1,5 +1,6 @@
 const Op = require("sequelize").Op;
 const { Follow } = require("../models/index");
+const { User } = require("../models/index");
 
 exports.createFollow = async (follower, following) => {
   return await Follow.create({
@@ -18,22 +19,45 @@ exports.getFollow = async (follower, following) => {
   });
 };
 
-// exports.getFollowerCnt = async (follower, following) => {
-//   return await Follow.findAll({
-//     attributes: [],
-//     where: {
-//       following: following,
-//     },
-//   });
-// };
-
-exports.getFollowingCnt = async (follower, following) => {};
-
 exports.deleteFollow = async (follower, following) => {
   return await Follow.destroy({
     where: {
       follower: follower,
       following: following,
+    },
+  });
+};
+
+exports.getFollowing = async (user_id) => {
+  return await Follow.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["user_id", "nickname"],
+      },
+    ],
+    attributes: {
+      exclude: ["fol_time", "createdAt", "updatedAt"],
+    },
+    where: {
+      following: user_id,
+    },
+  });
+};
+
+exports.getFollower = async (user_id) => {
+  return await Follow.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["user_id", "nickname"],
+      },
+    ],
+    attributes: {
+      exclude: ["fol_time", "createdAt", "updatedAt"],
+    },
+    where: {
+      follower: user_id,
     },
   });
 };
