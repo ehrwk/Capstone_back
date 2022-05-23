@@ -6,11 +6,13 @@ const user = require("./user");
 const auth = require("./auth");
 const follow = require("./follow");
 const goal = require("./goal");
+const plan = require("./plan");
 
 router.use("/user", user);
 router.use("/auth", auth);
 router.use("/follow", follow);
 router.use("/goal", goal);
+router.use("/plan", plan);
 
 module.exports = router;
 

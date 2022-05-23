@@ -1,26 +1,26 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Goal", {
+  return sequelize.define("Plan", {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
+    goal_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    goal_title: {
+    plan_title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    board_category: {
-      type: DataTypes.STRING,
+    is_checked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
-    copied_from: {
-      type: DataTypes.INTEGER,
+    content: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: -1,
     },
   });
 };

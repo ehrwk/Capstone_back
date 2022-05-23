@@ -67,31 +67,22 @@ router.post(
   }
 );
 
-router.get(
-  "/idcheck",
-  [
-    body("user_id")
-      .trim()
-      .notEmpty()
-      .withMessage("id값을 입력하지 않았습니다."),
-  ],
-  validateUser,
-  async (req, res) => {
-    const result = await userService.getUserId(req.body.user_id);
+router.get("/idcheck/:id", validateUser, async (req, res) => {
+  const id = req.params.id;
+  const result = await userService.getUserId(id);
 
-    if (result) {
-      return res.status(201).send({
-        success: false,
-        message: "이미 존재하는 아이디입니다.",
-      });
-    } else {
-      return res.status(200).send({
-        success: true,
-        message: "사용가능한 아이디입니다.",
-      });
-    }
+  if (result) {
+    return res.status(201).send({
+      success: false,
+      message: "이미 존재하는 아이디입니다.",
+    });
+  } else {
+    return res.status(200).send({
+      success: true,
+      message: "사용가능한 아이디입니다.",
+    });
   }
-);
+});
 
 //유저정보 조회
 router.get("/", isLogin, async (req, res) => {
