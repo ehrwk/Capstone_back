@@ -7,6 +7,7 @@ const { body } = require("express-validator");
 
 const jwt = require("../module/jwt");
 
+const userService = require("../service/user");
 const goalService = require("../service/goal");
 const { isLogin } = require("../middleware/index");
 
@@ -127,6 +128,26 @@ router.get("/:id", isLogin, async (req, res) => {
       success: true,
       data: getGoalInfo,
       message: "Get goal_list",
+    });
+  }
+});
+
+//특정 유저 goal 조회
+router.get("/list/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const getUser = await userService.getUser(id);
+  if (getUser == null) {
+    return res.status(404).send({
+      success: false,
+      message: "해당하는 유저정보가 없습니다.",
+    });
+  } else {
+    const getUserGoal = await goalService.getUserGoal(id);
+    return res.status(200).send({
+      success: true,
+      data: getUserGoal,
+      message: "get User's goal list",
     });
   }
 });

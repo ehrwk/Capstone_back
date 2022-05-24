@@ -1,5 +1,5 @@
 const Op = require("sequelize").Op;
-const { Follow } = require("../models/index");
+const { Follow, sequelize } = require("../models/index");
 const { User } = require("../models/index");
 
 exports.createFollow = async (follower, following) => {

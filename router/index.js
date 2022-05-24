@@ -7,12 +7,16 @@ const auth = require("./auth");
 const follow = require("./follow");
 const goal = require("./goal");
 const plan = require("./plan");
+const liked = require("./liked");
+const feed = require("./feed");
 
 router.use("/user", user);
 router.use("/auth", auth);
 router.use("/follow", follow);
 router.use("/goal", goal);
 router.use("/plan", plan);
+router.use("/liked", liked);
+router.use("/feed", feed);
 
 module.exports = router;
 

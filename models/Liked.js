@@ -1,19 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Follow", {
+  return sequelize.define("Liked", {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
-    follower: {
+    user_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
     },
-    following: {
+    plan_id: {
       type: DataTypes.INTEGER,
-    },
-    fol_time: {
-      type: DataTypes.DATE,
+      allowNull: false,
     },
   });
 };

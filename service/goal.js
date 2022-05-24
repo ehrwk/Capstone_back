@@ -70,3 +70,19 @@ exports.getGoalTitle = async (id) => {
     },
   });
 };
+
+exports.getUserGoal = async (user_id) => {
+  return await Goal.findAll({
+    include: [
+      {
+        model: Plan,
+      },
+    ],
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
+    where: {
+      user_id: user_id,
+    },
+  });
+};

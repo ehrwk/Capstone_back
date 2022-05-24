@@ -20,6 +20,16 @@ exports.getPlan = async (goal_id) => {
   });
 };
 
+exports.getPlanDesc = async (goal_id) => {
+  return await Plan.findAll({
+    attribute: ["id", "goal_id", "plan_title", "is_checked", "content"],
+    where: {
+      goal_id: goal_id,
+    },
+    order: [["updatedAt", "DESC"]],
+  });
+};
+
 exports.updatePlan = async (id, plan_title, content) => {
   return await Plan.update(
     {
@@ -39,6 +49,32 @@ exports.getPlanInfo = async (goal_id, plan_id) => {
     where: {
       goal_id: goal_id,
       id: plan_id,
+    },
+  });
+};
+
+exports.checkPlan = async (plan_id, is_checked) => {
+  return await Plan.update(
+    {
+      is_checked: is_checked,
+    },
+    {
+      where: {
+        id: plan_id,
+      },
+    }
+  );
+};
+
+exports.getUserPlan = async (id) => {
+  return await Plan.findAll({
+    include: [
+      {
+        model: Goal,
+      },
+    ],
+    where: {
+      user_id: id,
     },
   });
 };

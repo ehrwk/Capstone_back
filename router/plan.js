@@ -63,7 +63,7 @@ router.post(
   }
 );
 
-//모든 Plan정보 가져오기
+//특정유저 모든 Plan정보 가져오기
 router.get("/", isLogin, async (req, res) => {
   const token = req.get("Authorization");
   const result = await jwt.decode(token);
@@ -132,12 +132,40 @@ router.get("/:goal_id/:plan_id", isLogin, async (req, res) => {
       message: "작성자가 아닙니다.",
     });
   } else {
-    const getPlanInfo = await planService.getPlanInfo(goal_id, plan_id);
     const getGoalTitle = await goalService.getGoalTitle(goal_id);
+    const getPlanInfo = await planService.getPlanInfo(goal_id, plan_id);
+
     return res.status(200).send({
       success: true,
-      data: [getGoalTitle, getPlanInfo],
+      ["Goal"]: getGoalTitle,
+      ["Plan"]: getPlanInfo,
       message: "Get Plan",
+    });
+  }
+});
+
+//Plan check하기
+router.patch("/:goal_id/:plan_id/:isChecked", isLogin, async (req, res) => {
+  const goal_id = req.params.goal_id;
+  const plan_id = req.params.plan_id;
+  const isChecked = req.params.isChecked;
+
+  const token = req.get("Authorization");
+  const result = await jwt.decode(token);
+  let userInfo = JSON.stringify(result.id);
+
+  const getUser = await goalService.getUser(goal_id, userInfo);
+  if (getUser == null) {
+    return res.status(404).send({
+      success: false,
+      message: "작성자가 아닙니다.",
+    });
+  } else {
+    const checkPlan = await planService.checkPlan(plan_id, isChecked);
+    return res.status(201).send({
+      success: true,
+      data: checkPlan,
+      message: "plan check update",
     });
   }
 });

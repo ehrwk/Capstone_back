@@ -9,7 +9,8 @@ const { body } = require("express-validator");
 const jwt = require("../module/jwt");
 
 const userService = require("../service/user");
-const followService = require("../service/follow");
+const planService = require("../service/plan");
+
 const bcypt = require("bcrypt");
 const { isLogin } = require("../middleware/index");
 
@@ -67,6 +68,7 @@ router.post(
   }
 );
 
+//id여부 확인
 router.get("/idcheck/:id", validateUser, async (req, res) => {
   const id = req.params.id;
   const result = await userService.getUserId(id);
@@ -92,7 +94,7 @@ router.get("/", isLogin, async (req, res) => {
   let userInfo = JSON.stringify(result.id);
   userInfo = userInfo.replace(/\"/gi, "");
 
-  const getUser = await userService.getUser(userInfo);
+  const getUser = await userService.getUserId(userInfo);
 
   return res.status(200).send({
     success: true,
@@ -123,13 +125,36 @@ router.patch(
   }
 );
 
-//유저 팔로잉팔로우수
-router.get("/profile", isLogin, async (req, res) => {
-  const token = req.get("Authorization");
+//특정유저정보
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const getUser = await userService.getUser(id);
+  if (getUser) {
+    return res.status(201).send({
+      success: true,
+      data: getUser,
+      message: "특정 유저정보",
+    });
+  } else {
+    return res.status(404).send({
+      success: false,
+      message: "유저정보가 없습니다.",
+    });
+  }
+});
 
-  const result = await jwt.decode(token);
-  let userInfo = JSON.stringify(result.id);
-  userInfo = userInfo.replace(/\"/gi, "");
+//특정유저 plan 조회
+router.get("/plan/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+
+  const getPlan = await planService.getPlan(id);
+
+  return res.status(200).send({
+    success: true,
+    data: getPlan,
+    message: "특정유저 plan조회",
+  });
 });
 
 //유저정보조회 확인용
