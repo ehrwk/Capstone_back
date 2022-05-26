@@ -109,6 +109,9 @@ router.get("/follower/:id", isLogin, async (req, res) => {
 //내부 팔로잉 팔로워명 수정필요
 router.get("/following/:id", isLogin, async (req, res) => {
   const id = req.params.id;
+
+  const token = req.get("Authorization");
+  const result = await jwt.decode(token);
   const getUser = await userService.getUser(id);
 
   if (getUser == null) {
@@ -116,18 +119,15 @@ router.get("/following/:id", isLogin, async (req, res) => {
       success: false,
       message: "없는 유저정보입니다.",
     });
+  } else {
+    const getFollower = await followService.getFollower(id);
+
+    return res.status(200).send({
+      success: true,
+      data: getFollower,
+      message: "팔로잉 목록",
+    });
   }
-
-  const token = req.get("Authorization");
-  const result = await jwt.decode(token);
-
-  const getFollower = await followService.getFollower(id);
-
-  return res.status(200).send({
-    success: true,
-    data: getFollower,
-    message: "팔로잉 목록",
-  });
 });
 
 module.exports = router;

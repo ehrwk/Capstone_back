@@ -12,8 +12,5 @@ module.exports = (sequelize, DataTypes) => {
     following: {
       type: DataTypes.INTEGER,
     },
-    fol_time: {
-      type: DataTypes.DATE,
-    },
   });
 };

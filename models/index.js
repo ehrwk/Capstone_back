@@ -25,7 +25,9 @@ db.Goal = require("./Goal")(sequelize, Sequelize);
 db.Plan = require("./Plan")(sequelize, Sequelize);
 db.Liked = require("./Liked")(sequelize, Sequelize);
 
+db.User.hasMany(db.Follow, { foreignKey: "follower", targetKey: "id" });
 db.Follow.belongsTo(db.User, { foreignKey: "follower", targetKey: "id" }); //User 1 : N Follow
+db.User.hasMany(db.Follow, { foreignKey: "following", targetKey: "id" });
 db.Follow.belongsTo(db.User, { foreignKey: "following", targetKey: "id" });
 db.Goal.belongsTo(db.User, { foreignKey: "user_id" });
 db.Goal.hasMany(db.Plan, { foreignKey: "goal_id", targetKey: "id" });

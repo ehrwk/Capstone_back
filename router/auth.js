@@ -57,9 +57,11 @@ router.post(
         // const verify = await jwt.verify(jwtToken.token);
         // console.log(verify);
         //발급된 시간이 decode되어 return
+
         res.status(200).send({
           success: true,
           token: jwtToken.token,
+          data: result,
           message: "로그인 성공",
         });
       }
